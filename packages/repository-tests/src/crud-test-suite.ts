@@ -33,6 +33,7 @@ export function crudRepositoryTestSuite(
     freeFormProperties: true,
     emptyValue: undefined,
     supportsTransactions: true,
+    convertIdType: false,
     ...partialFeatures,
   };
 
@@ -50,14 +51,39 @@ export function crudRepositoryTestSuite(
       }),
     );
 
+    let testFiles = [];
+
     const testRoot = path.resolve(__dirname, 'crud');
-    let testFiles = fs.readdirSync(testRoot);
+    testFiles = fs.readdirSync(testRoot);
     testFiles = testFiles.filter(function(it) {
       return (
         !!require.extensions[path.extname(it).toLowerCase()] &&
         /\.suite\.[^.]+$/.test(it)
       );
     });
+
+    // relations folder tests
+    const folders = ['acceptance', 'integration'];
+
+    for (const folder of folders) {
+      const relationsTestRoot = path.resolve(
+        __dirname,
+        `crud/relations/${folder}`,
+      );
+      let folderTestFiles = fs.readdirSync(relationsTestRoot);
+      folderTestFiles = folderTestFiles.filter(function(it) {
+        return (
+          (!!require.extensions[path.extname(it).toLowerCase()] &&
+            /\.acceptance\.[^.]+$/.test(it)) ||
+          (!!require.extensions[path.extname(it).toLowerCase()] &&
+            /\.integration\.[^.]+$/.test(it))
+        );
+      });
+      folderTestFiles.forEach(element => {
+        element = `relations/${folder}/` + element;
+        testFiles.push(element);
+      });
+    }
 
     for (const ix in testFiles) {
       const name = testFiles[ix];

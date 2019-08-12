@@ -23,15 +23,18 @@
     "@loopback/build": "^1.7.1",
     "@loopback/repository": "^1.12.0",
     "@types/debug": "^4.1.5",
-    "@types/node": "^10.14.16"
+    "@types/node": "^10.14.16",
+    "@types/lodash": "^4.14.137"
   },
   "dependencies": {
+    "@loopback/context": "^1.21.3",
     "@loopback/testlab": "^1.7.4",
-    "@types/debug": "^4.1.5",
+    "loopback-datasource-juggler": "^4.12.0",
+    "lodash": "^4.17.15",
     "debug": "^4.1.1"
   },
   "peerDependencies": {
-    "@loopback/repository": "^1.6.1"
+    "@loopback/repository": "^1.11.1"
   },
   "files": [
     "README.md",

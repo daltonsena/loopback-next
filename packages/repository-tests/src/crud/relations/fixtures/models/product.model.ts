@@ -1,18 +1,23 @@
 // Copyright IBM Corp. 2019. All Rights Reserved.
-// Node module: @loopback/repository
+// Node module: @loopback/repository-tests
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {Entity, model, property} from '../../..';
+import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({
+  settings: {
+    strictObjectIDCoercion: true,
+  },
+})
 export class Product extends Entity {
   @property({
-    type: 'number',
+    type: 'string',
     id: true,
+    generated: true,
     description: 'The unique identifier for a product',
   })
-  id: number;
+  id: string;
 
   @property({type: 'string'})
   name: string;

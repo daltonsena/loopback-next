@@ -1,18 +1,23 @@
 // Copyright IBM Corp. 2019. All Rights Reserved.
-// Node module: @loopback/repository
+// Node module: @loopback/repository-tests
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {Entity, hasMany, model, property} from '../../..';
+import {Entity, hasMany, model, property} from '@loopback/repository';
 import {Order, OrderWithRelations} from './order.model';
 
-@model()
+@model({
+  settings: {
+    strictObjectIDCoercion: true,
+  },
+})
 export class Shipment extends Entity {
   @property({
-    type: 'number',
+    type: 'string',
     id: true,
+    generated: true,
   })
-  id: number;
+  id: string;
 
   @property({type: 'string'})
   name: string;

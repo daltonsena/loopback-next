@@ -17,4 +17,5 @@ export const MONGODB_CONFIG: DataSourceOptions = {
 export const MONGODB_FEATURES: Partial<CrudFeatures> = {
   idType: 'string',
   supportsTransactions: false,
+  convertIdType: true,
 };

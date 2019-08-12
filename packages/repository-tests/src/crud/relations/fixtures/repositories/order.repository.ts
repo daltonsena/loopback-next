@@ -9,7 +9,7 @@ import {
   DefaultCrudRepository,
   juggler,
   repository,
-} from '../../..';
+} from '@loopback/repository';
 import {Customer, Order, OrderRelations, Shipment} from '../models';
 import {CustomerRepository, ShipmentRepository} from '../repositories';
 
@@ -39,6 +39,7 @@ export class OrderRepository extends DefaultCrudRepository<
       'customer',
       customerRepositoryGetter,
     );
+
     this.shipment = this.createBelongsToAccessorFor(
       'shipment',
       shipmentRepositoryGetter,
