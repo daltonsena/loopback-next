@@ -4,14 +4,14 @@
 // License text available at https://opensource.org/licenses/MIT
 
 import {Getter, inject} from '@loopback/context';
-import {OrderRepository} from '.';
 import {
   DefaultCrudRepository,
   HasManyRepositoryFactory,
   juggler,
   repository,
-} from '../../..';
+} from '@loopback/repository';
 import {Order, Shipment, ShipmentRelations} from '../models';
+import {OrderRepository} from '../repositories';
 
 export class ShipmentRepository extends DefaultCrudRepository<
   Shipment,

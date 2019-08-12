@@ -47,6 +47,7 @@ export interface CrudFeatures {
    * Default: `undefined`
    */
   emptyValue: undefined | null;
+
   /**
    * Does the connector support using transactions for performing CRUD
    * operations atomically and being able to commit or rollback the changes?
@@ -55,6 +56,14 @@ export interface CrudFeatures {
    * Default: `false`
    */
   supportsTransactions: boolean;
+
+  /**
+   * Does the database use string and objectId as type of id?
+   * MongoDB use this format.
+   *
+   * Default: `false`
+   */
+  convertIdType: boolean;
 }
 
 /**
