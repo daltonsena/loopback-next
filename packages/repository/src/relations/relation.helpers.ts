@@ -183,7 +183,7 @@ export function flattenMapByKeys<T>(
 }
 
 // TODO(bajtos) add test coverage
-/** Returns a map which map key values(ids) to instances.
+/** Returns a map which maps key values(ids) to instances.
  * 
  * @param list - an array of instances
  * @param keyName - key name of the source
@@ -228,4 +228,12 @@ export function reduceAsArray<T>(acc: T[] | undefined, it: T) {
   if (acc) acc.push(it);
   else acc = [it];
   return acc;
+}
+/** Returns a single of instance. For HasOne and BelongsTo relation usage.
+ * 
+ * @param _acc 
+ * @param it 
+ */
+export function reduceAsSingleItem<T>(_acc: T | undefined, it: T) {
+  return it;
 }
