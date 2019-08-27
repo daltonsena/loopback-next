@@ -3,8 +3,9 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {DefaultCrudRepository, juggler} from '@loopback/repository';
+import {DefaultCrudRepository, juggler} from '../../..';
 import {Product, ProductRelations} from '../models/product.model';
+export {Product};
 
 export class ProductRepository extends DefaultCrudRepository<
   Product,

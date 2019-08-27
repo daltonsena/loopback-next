@@ -6,11 +6,7 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
 import {Order, OrderWithRelations} from './order.model';
 
-@model({
-  settings: {
-    strictObjectIDCoercion: true,
-  },
-})
+@model()
 export class Shipment extends Entity {
   @property({
     type: 'string',

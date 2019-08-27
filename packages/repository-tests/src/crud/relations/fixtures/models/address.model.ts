@@ -6,40 +6,33 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {Customer, CustomerWithRelations} from './customer.model';
 
-@model({
-  settings: {
-    strictObjectIDCoercion: true,
-  },
-})
+@model()
 export class Address extends Entity {
   @property({
     type: 'string',
     id: true,
     generated: true,
   })
-  id: string;
+  id: string | number;
   @property({
     type: 'string',
   })
   street: string;
   @property({
     type: 'string',
-    default: '12345',
   })
   zipcode: string;
   @property({
     type: 'string',
-    default: 'Toronto',
   })
   city: string;
   @property({
     type: 'string',
-    default: 'Ontario',
   })
   province: string;
 
   @belongsTo(() => Customer)
-  customerId: string;
+  customerId: string | number;
 }
 
 export interface AddressRelations {
