@@ -56,14 +56,6 @@ export interface CrudFeatures {
    * Default: `false`
    */
   supportsTransactions: boolean;
-
-  /**
-   * Does the database use string and objectId as type of id?
-   * MongoDB use this format.
-   *
-   * Default: `false`
-   */
-  convertIdType: boolean;
 }
 
 /**

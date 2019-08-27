@@ -33,7 +33,6 @@ export function crudRepositoryTestSuite(
     freeFormProperties: true,
     emptyValue: undefined,
     supportsTransactions: true,
-    convertIdType: false,
     ...partialFeatures,
   };
 

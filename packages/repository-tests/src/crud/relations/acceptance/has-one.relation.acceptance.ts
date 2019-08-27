@@ -44,28 +44,28 @@ export function hasOneRelationAcceptance(
     beforeEach(async () => {
       await addressRepo.deleteAll();
       existingCustomerId = (await givenPersistedCustomerInstance()).id;
-      // convert the type as it is generated as type number(in-memory, MySQL) or objectid(Mongo)
-      // existingCustomerId = existingCustomerId.toString();
     });
 
     it('can create an instance of the related model', async () => {
       const address = await createCustomerAddress(existingCustomerId, {
         street: '123 test avenue',
       });
-      expect(address.toObject()).to.containDeep({
-        customerId: existingCustomerId,
-        street: '123 test avenue',
-      });
-
-      expect(address.customerId).eql(existingCustomerId);
+      expect(toJSON(address)).to.containDeep(
+        toJSON({
+          customerId: existingCustomerId,
+          street: '123 test avenue',
+        }),
+      );
 
       const persisted = await addressRepo.findById(address.id);
-      expect(persisted.toObject()).to.deepEqual({
-        ...address.toObject(),
-        zipcode: features.emptyValue,
-        city: features.emptyValue,
-        province: features.emptyValue,
-      });
+      expect(toJSON(persisted)).to.deepEqual(
+        toJSON({
+          ...address,
+          zipcode: features.emptyValue,
+          city: features.emptyValue,
+          province: features.emptyValue,
+        }),
+      );
     });
 
     // We do not enforce referential integrity at the moment. It is up to
@@ -94,12 +94,7 @@ export function hasOneRelationAcceptance(
         street: '123 test avenue',
       });
       const foundAddress = await findCustomerAddress(existingCustomerId);
-      expect(foundAddress).to.containEql({
-        ...address,
-        zipcode: features.emptyValue,
-        city: features.emptyValue,
-        province: features.emptyValue,
-      });
+      expect(toJSON(foundAddress)).to.containEql(toJSON(address));
       expect(toJSON(foundAddress)).to.deepEqual(
         toJSON({
           ...address,
@@ -162,10 +157,6 @@ export function hasOneRelationAcceptance(
 
       expect(arePatched).to.deepEqual({count: 1});
       const patchedData = await addressRepo.findById(address.id);
-      // make mongo happy
-      if (features.convertIdType) {
-        address.id = address.id.toString();
-      }
 
       expect(toJSON(patchedData)).to.deepEqual({
         id: address.id,

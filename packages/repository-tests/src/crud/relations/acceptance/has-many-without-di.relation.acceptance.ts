@@ -34,6 +34,7 @@ export function hasManyWithoutDIRelationAcceptance(
   describe('HasMany relation without di (acceptance)', () => {
     before(deleteAllModelsInDefaultDataSource);
     // Given a Customer and Order models - see definitions at the bottom
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let existingCustomerId: any;
     let ds: juggler.DataSource;
     let customerRepo: CustomerRepository;
@@ -63,7 +64,6 @@ export function hasManyWithoutDIRelationAcceptance(
       const order = await createCustomerOrders(existingCustomerId, {
         description: 'order 1',
       });
-
       expect(toJSON(order)).containDeep(
         toJSON({
           customerId: existingCustomerId,

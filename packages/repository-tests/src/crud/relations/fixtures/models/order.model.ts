@@ -7,6 +7,8 @@ import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {Customer, CustomerWithRelations} from './customer.model';
 import {Shipment, ShipmentWithRelations} from './shipment.model';
 
+// export function createOrderModel(repoClass: CrudRepositoryCtor) {
+//   return
 @model()
 export class Order extends Entity {
   @property({
@@ -33,7 +35,7 @@ export class Order extends Entity {
   customerId: string | number;
 
   @belongsTo(() => Shipment, {name: 'shipment'})
-  shipment_id: string;
+  shipment_id: string | number;
 }
 
 export interface OrderRelations {
