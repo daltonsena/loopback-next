@@ -3,5 +3,4 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-// FIXME(bajtos) replace this dummy export with real implementation
-export const dummy = true;
+export * from './rest.booter';

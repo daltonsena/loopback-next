@@ -3,16 +3,17 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {resolve, parse} from 'path';
 import {
-  copy,
-  ensureDirSync,
-  emptyDir,
-  remove,
-  ensureDir,
-  pathExists,
   appendFile,
+  copy,
+  emptyDir,
+  ensureDir,
+  ensureDirSync,
+  pathExists,
+  remove,
+  writeJson,
 } from 'fs-extra';
+import {parse, resolve} from 'path';
 
 /**
  * TestSandbox class provides a convenient way to get a reference to a
@@ -104,5 +105,17 @@ export class TestSandbox {
       const srcMap = src + '.map';
       await appendFile(dest, `\n//# sourceMappingURL=${srcMap}`);
     }
+  }
+
+  /**
+   * Creates a new JSON file at the given path. Create any missing directories.
+   * @param filePath Path relative to sandbox root, e.g. `models/config.json`.
+   * @param data Data to write to the file, e.g. `{enabled: true}`
+   */
+  async writeJsonFile(filePath: string, data: unknown): Promise<void> {
+    filePath = resolve(this.path, filePath);
+    const destDir = parse(filePath).dir;
+    await ensureDir(destDir);
+    return writeJson(filePath, data);
   }
 }

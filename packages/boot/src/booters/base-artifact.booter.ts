@@ -36,7 +36,7 @@ export class BaseArtifactBooter implements Booter {
   /**
    * Project root relative to which all other paths are resolved
    */
-  readonly projectRoot: string;
+  projectRoot: string;
   /**
    * Relative paths of directories to be searched
    */
@@ -84,6 +84,22 @@ export class BaseArtifactBooter implements Booter {
         ? this.options.dirs
         : [this.options.dirs]
       : [];
+
+    // Normalize '../' paths. To keep things simple, we support only a single
+    // level in the spike implementation
+    if (this.dirs.some(d => d.startsWith('../'))) {
+      const parsedRoot = path.parse(this.projectRoot);
+      const base = parsedRoot.base;
+      this.projectRoot = parsedRoot.dir;
+      this.dirs = this.dirs.map(d => {
+        if (d.startsWith('../')) {
+          return d.slice(3);
+          // remove '../'
+        } else {
+          return `${base}/${d}`;
+        }
+      });
+    }
 
     this.extensions = this.options.extensions
       ? Array.isArray(this.options.extensions)
