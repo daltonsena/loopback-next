@@ -27,7 +27,7 @@ export function hasOneRelationAcceptance(
   describe('hasOne relation (acceptance)', () => {
     let customerRepo: CustomerRepository;
     let addressRepo: AddressRepository;
-    let existingCustomerId: string | number;
+    let existingCustomerId: any;
 
     before(deleteAllModelsInDefaultDataSource);
 
@@ -187,13 +187,13 @@ export function hasOneRelationAcceptance(
       expect(toJSON(found)).to.containDeep({city: 'Paris'});
     });
 
-    // it('throws an error when PATCH tries to change the foreignKey', async () => {
-    //   await expect(
-    //     patchCustomerAddress(existingCustomerId, {
-    //       customerId: existingCustomerId + 1,
-    //     }),
-    //   ).to.be.rejectedWith(/Property "customerId" cannot be changed!/);
-    // });
+    it('throws an error when PATCH tries to change the foreignKey', async () => {
+      await expect(
+        patchCustomerAddress(existingCustomerId, {
+          customerId: existingCustomerId + 1,
+        }),
+      ).to.be.rejectedWith(/Property "customerId" cannot be changed!/);
+    });
 
     it('can DELETE hasOne relation instances', async () => {
       await createCustomerAddress(existingCustomerId, {
