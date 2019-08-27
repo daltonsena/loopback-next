@@ -24,12 +24,10 @@ export class Address extends Entity {
   zipcode: string;
   @property({
     type: 'string',
-    default: 'Toronto',
   })
   city: string;
   @property({
     type: 'string',
-    default: 'Ontario',
   })
   province: string;
 

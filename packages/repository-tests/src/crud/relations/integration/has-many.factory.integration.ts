@@ -80,10 +80,6 @@ export function hasManyFactorySuite(
         customerId: existingCustomerId,
       });
       const persisted = await orderRepo.findById(order.id);
-      // make mongo happy
-      if (features.convertIdType) {
-        persisted.customerId = persisted.customerId.toString();
-      }
       expect(order).to.deepEqual(persisted);
     });
 
@@ -105,12 +101,6 @@ export function hasManyFactorySuite(
 
       const orders = await customerOrderRepo.find();
       expect(orders).to.deepEqual(persistedOrders);
-      // make mongo happy
-      if (features.convertIdType) {
-        for (const o of orders) {
-          o.customerId = o.customerId.toString();
-        }
-      }
       expect(orders).to.containEql(order);
       expect(orders).to.not.containEql(notMyOrder);
     });
