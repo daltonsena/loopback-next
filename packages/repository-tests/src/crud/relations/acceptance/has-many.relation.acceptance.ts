@@ -29,7 +29,8 @@ export function hasManyRelationAcceptance(
 
     let customerRepo: CustomerRepository;
     let orderRepo: OrderRepository;
-    let existingCustomerId: string | number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let existingCustomerId: any;
 
     before(
       withCrudCtx(async function setupRepository(ctx: CrudTestContext) {
@@ -53,33 +54,36 @@ export function hasManyRelationAcceptance(
     it('can create an instance of the related model', async () => {
       const order = await customerRepo.orders(existingCustomerId).create({
         description: 'order 1',
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        shipment_id: 1,
       });
 
       expect(toJSON(order)).containDeep(
         toJSON({
           customerId: existingCustomerId,
           description: 'order 1',
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          shipment_id: 1,
         }),
       );
 
       const persisted = await orderRepo.findById(order.id);
-      expect(toJSON(persisted)).to.deepEqual(toJSON(order));
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      expect(toJSON({...persisted, shipment_id: 1})).to.deepEqual(
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        toJSON({...order, shipment_id: 1}),
+      );
     });
 
     it('can find instances of the related model', async () => {
       const order = await createCustomerOrders(existingCustomerId, {
         description: 'order 1',
       });
-      // const notMyOrder = await createCustomerOrders(9999 + 1, {
-      //   description: 'order 2',
-      // });
+      const notMyOrder = await createCustomerOrders(existingCustomerId + 1, {
+        description: 'order 2',
+      });
       const foundOrders = await findCustomerOrders(existingCustomerId);
-      expect(toJSON(foundOrders)).to.containEql(toJSON(order));
-      // expect(toJSON(foundOrders)).to.not.containEql(toJSON(notMyOrder));
+      expect(toJSON(foundOrders)).to.containEql(
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        toJSON({...order, shipment_id: features.emptyValue}),
+      );
+      expect(toJSON(foundOrders)).to.not.containEql(toJSON(notMyOrder));
 
       const persisted = await orderRepo.find({
         where: {customerId: existingCustomerId},

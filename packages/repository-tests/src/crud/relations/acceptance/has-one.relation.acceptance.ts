@@ -158,14 +158,16 @@ export function hasOneRelationAcceptance(
       expect(arePatched).to.deepEqual({count: 1});
       const patchedData = await addressRepo.findById(address.id);
 
-      expect(toJSON(patchedData)).to.deepEqual({
-        id: address.id,
-        customerId: existingCustomerId,
-        street: '1 Amedee Bonnet',
-        zipcode: '69740',
-        city: 'Lyon-Genas',
-        province: 'Rhone',
-      });
+      expect(toJSON(patchedData)).to.deepEqual(
+        toJSON({
+          id: address.id,
+          customerId: existingCustomerId,
+          street: '1 Amedee Bonnet',
+          zipcode: '69740',
+          city: 'Lyon-Genas',
+          province: 'Rhone',
+        }),
+      );
     });
 
     it('patches the related instance only', async () => {
