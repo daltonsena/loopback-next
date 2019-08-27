@@ -25,7 +25,7 @@ export class Customer extends Entity {
     id: true,
     generated: true,
   })
-  id: string;
+  id: string | number;
 
   @property({
     type: 'string',
@@ -42,7 +42,7 @@ export class Customer extends Entity {
   customers?: Customer[];
 
   @belongsTo(() => Customer)
-  parentId?: string;
+  parentId?: string | number;
 }
 
 export interface CustomerRelations {

@@ -17,14 +17,13 @@ export class Address extends Entity {
     id: true,
     generated: true,
   })
-  id: string;
+  id: string | number;
   @property({
     type: 'string',
   })
   street: string;
   @property({
     type: 'string',
-    default: '12345',
   })
   zipcode: string;
   @property({
@@ -39,7 +38,7 @@ export class Address extends Entity {
   province: string;
 
   @belongsTo(() => Customer)
-  customerId: string;
+  customerId: string | number;
 }
 
 export interface AddressRelations {

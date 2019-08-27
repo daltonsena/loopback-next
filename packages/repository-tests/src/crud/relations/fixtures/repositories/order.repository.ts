@@ -4,16 +4,15 @@
 // License text available at https://opensource.org/licenses/MIT
 
 import {Getter, inject} from '@loopback/context';
-import {
-  BelongsToAccessor,
-  DefaultCrudRepository,
-  juggler,
-  repository,
-} from '@loopback/repository';
+import {BelongsToAccessor, juggler, repository} from '@loopback/repository';
+import {DefaultCrudRepository} from '@loopback/repository/src';
 import {Customer, Order, OrderRelations, Shipment} from '../models';
 import {CustomerRepository, ShipmentRepository} from '../repositories';
 
+// export function createOrderRepo(repoClass: CrudRepositoryCtor) {
+//   return
 export class OrderRepository extends DefaultCrudRepository<
+  //  repoClass<
   Order,
   typeof Order.prototype.id,
   OrderRelations
@@ -28,7 +27,7 @@ export class OrderRepository extends DefaultCrudRepository<
   >;
 
   constructor(
-    @inject('datasources.db') protected db: juggler.DataSource,
+    @inject('datasources.db') db: juggler.DataSource,
     @repository.getter('CustomerRepository')
     customerRepositoryGetter: Getter<CustomerRepository>,
     @repository.getter('ShipmentRepository')

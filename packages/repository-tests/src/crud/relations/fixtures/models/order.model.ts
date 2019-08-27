@@ -18,7 +18,7 @@ export class Order extends Entity {
     id: true,
     generated: true,
   })
-  id: string;
+  id: string | number;
 
   @property({
     type: 'string',
@@ -34,7 +34,7 @@ export class Order extends Entity {
   isShipped: boolean;
 
   @belongsTo(() => Customer)
-  customerId: string;
+  customerId: string | number;
 
   @belongsTo(() => Shipment, {name: 'shipment'})
   shipment_id: string;
