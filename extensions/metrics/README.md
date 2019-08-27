@@ -64,8 +64,14 @@ https://prometheus.io/docs/introduction/faq/#why-do-you-pull-rather-than-push
 ## Try it out
 
 ```sh
+git clone https://github.com/strongloop/loopback-next
+npm install
+npm run build
+cd examples/metrics-prometheus
 npm run demo
 ```
+
+Open http://localhost:9090 to load Prometheus web UI.
 
 ### /metrics endpoint
 
@@ -220,12 +226,6 @@ loopback_invocation_total 1
 </code></pre>
 
 </details>
-
-### Prometheus UI
-
-Open http://localhost:9090 to load Prometheus web UI.
-
-![Prometheus Demo](prometheus-demo.png)
 
 ## Contributions
 

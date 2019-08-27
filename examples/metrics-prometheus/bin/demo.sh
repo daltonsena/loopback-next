@@ -14,8 +14,7 @@ docker run --name $PROM_CONTAINER_NAME -p 9090:9090 -v $CONFIG:/etc/prometheus/p
 
 echo Prometheus is running at http://localhost:9090.
 
-pushd $DIR/../.. >/dev/null
+pushd $DIR/.. >/dev/null
 npm run build
-node ./dist/__examples__/metrics
+node .
 popd
-

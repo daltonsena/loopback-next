@@ -10,8 +10,7 @@
     "clean": "lb-clean loopback-extension-metrics*.tgz dist tsconfig.build.tsbuildinfo package",
     "pretest": "npm run build",
     "test": "lb-mocha \"dist/__tests__/**/*.js\"",
-    "verify": "npm pack && tar xf loopback-extension-metrics*.tgz && tree package && npm run clean",
-    "demo": "./src/__examples__/demo.sh"
+    "verify": "npm pack && tar xf loopback-extension-metrics*.tgz && tree package && npm run clean"
   },
   "author": "IBM Corp.",
   "copyright.owner": "IBM Corp.",
