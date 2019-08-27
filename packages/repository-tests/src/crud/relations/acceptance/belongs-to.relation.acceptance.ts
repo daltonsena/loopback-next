@@ -3,7 +3,7 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {expect} from '@loopback/testlab';
+import {expect, toJSON} from '@loopback/testlab';
 import {
   deleteAllModelsInDefaultDataSource,
   withCrudCtx,
@@ -52,7 +52,6 @@ export function belongsToRelationAcceptance(
     it('can find customer of order', async () => {
       const customer = await customerRepo.create({
         name: 'Order McForder',
-        parentId: '1',
       });
       const order = await orderRepo.create({
         customerId: customer.id,
@@ -60,7 +59,8 @@ export function belongsToRelationAcceptance(
       });
 
       const result = await orderRepo.customer(order.id);
-      expect(result).to.deepEqual(customer);
+      // don't need to check parentId at this point, but still need to pass it in here so that MySQL won't complain
+      expect(toJSON({...result, parentId: 1})).to.deepEqual(toJSON({...customer, parentId: 1}));
     });
 
     it('can find shipment of order with a custom foreign key name', async () => {

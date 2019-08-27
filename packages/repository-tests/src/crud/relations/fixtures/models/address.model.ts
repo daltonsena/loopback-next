@@ -6,11 +6,7 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {Customer, CustomerWithRelations} from './customer.model';
 
-@model({
-  settings: {
-    strictObjectIDCoercion: true,
-  },
-})
+@model()
 export class Address extends Entity {
   @property({
     type: 'string',

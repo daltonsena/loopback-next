@@ -34,7 +34,7 @@ export function hasManyWithoutDIRelationAcceptance(
   describe('HasMany relation without di (acceptance)', () => {
     before(deleteAllModelsInDefaultDataSource);
     // Given a Customer and Order models - see definitions at the bottom
-    let existingCustomerId: number | string;
+    let existingCustomerId: any;
     let ds: juggler.DataSource;
     let customerRepo: CustomerRepository;
     let orderRepo: OrderRepository;
@@ -63,11 +63,7 @@ export function hasManyWithoutDIRelationAcceptance(
       const order = await createCustomerOrders(existingCustomerId, {
         description: 'order 1',
       });
-      // avoid type problems of BSON type of mongodb
-      // if (features.convertIdType) {
-      //   // eslint-disable-next-line require-atomic-updates
-      //   existingCustomerId = existingCustomerId.toString();
-      // }
+
       expect(toJSON(order)).containDeep(
         toJSON({
           customerId: existingCustomerId,
@@ -80,34 +76,33 @@ export function hasManyWithoutDIRelationAcceptance(
       expect(persisted.toObject()).to.deepEqual(order.toObject());
     });
 
-    // it('can find instances of the related model (acceptance)', async () => {
-    //   async function createCustomerOrders(
-    //     customerId: number | string,
-    //     orderData: Partial<Order>,
-    //   ): Promise<Order> {
-    //     return customerRepo.orders(customerId).create(orderData);
-    //   }
-    //   async function findCustomerOrders(customerId: number | string) {
-    //     return customerRepo.orders(customerId).find();
-    //   }
+    it('can find instances of the related model (acceptance)', async () => {
+      async function createCustomerOrders(
+        customerId: number | string,
+        orderData: Partial<Order>,
+      ): Promise<Order> {
+        return customerRepo.orders(customerId).create(orderData);
+      }
+      async function findCustomerOrders(customerId: number | string) {
+        return customerRepo.orders(customerId).find();
+      }
 
-    //   const order = await createCustomerOrders(existingCustomerId, {
-    //     description: 'order 1',
-    //   });
+      const order = await createCustomerOrders(existingCustomerId, {
+        description: 'order 1',
+      });
+      const notMyOrder = await createCustomerOrders(existingCustomerId + 1, {
+        description: 'order 2',
+      });
+      const orders = await findCustomerOrders(existingCustomerId);
 
-    //   const notMyOrder = await createCustomerOrders(existingCustomerId + 1, {
-    //     description: 'order 2',
-    //   });
-    //   const orders = await findCustomerOrders(existingCustomerId);
+      expect(toJSON(orders)).to.containEql(toJSON(order));
+      expect(orders).to.not.containEql(notMyOrder);
 
-    //   expect(orders).to.containEql(order);
-    //   expect(orders).to.not.containEql(notMyOrder);
-
-    //   const persisted = await orderRepo.find({
-    //     where: {customerId: existingCustomerId},
-    //   });
-    //   expect(persisted).to.deepEqual(orders);
-    // });
+      const persisted = await orderRepo.find({
+        where: {customerId: existingCustomerId},
+      });
+      expect(toJSON(persisted)).to.deepEqual(toJSON(orders));
+    });
 
     //--- HELPERS ---//
 

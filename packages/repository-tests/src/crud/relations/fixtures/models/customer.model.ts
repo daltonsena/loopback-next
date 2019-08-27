@@ -14,11 +14,7 @@ import {
 import {Address, AddressWithRelations} from './address.model';
 import {Order, OrderWithRelations} from './order.model';
 
-@model({
-  settings: {
-    strictObjectIDCoercion: true,
-  },
-})
+@model()
 export class Customer extends Entity {
   @property({
     type: 'string',

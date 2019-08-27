@@ -5,7 +5,7 @@
 
 import {Getter, inject} from '@loopback/context';
 import {BelongsToAccessor, juggler, repository} from '@loopback/repository';
-import {DefaultCrudRepository} from '@loopback/repository/src';
+import {DefaultCrudRepository} from '@loopback/repository';
 import {Customer, Order, OrderRelations, Shipment} from '../models';
 import {CustomerRepository, ShipmentRepository} from '../repositories';
 
