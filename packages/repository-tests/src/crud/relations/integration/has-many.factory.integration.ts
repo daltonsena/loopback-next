@@ -15,7 +15,7 @@ import {
   ModelDefinition,
   RelationType,
 } from '@loopback/repository';
-import {expect} from '@loopback/testlab';
+import {expect, toJSON} from '@loopback/testlab';
 import {
   CrudFeatures,
   CrudRepositoryCtor,
@@ -42,7 +42,8 @@ export function hasManyFactorySuite(
   let reviewRepo: EntityCrudRepository<Review, typeof Review.prototype.id>;
 
   describe('HasMany relation (integration)', () => {
-    let existingCustomerId: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let existingCustomerId: any;
 
     let customerOrderRepo: HasManyRepository<Order>;
     let customerAuthoredReviewFactoryFn: HasManyRepositoryFactory<
@@ -80,7 +81,7 @@ export function hasManyFactorySuite(
         customerId: existingCustomerId,
       });
       const persisted = await orderRepo.findById(order.id);
-      expect(order).to.deepEqual(persisted);
+      expect(toJSON(order)).to.deepEqual(toJSON(persisted));
     });
 
     it('can find an instance of the related model', async () => {
@@ -100,9 +101,9 @@ export function hasManyFactorySuite(
       });
 
       const orders = await customerOrderRepo.find();
-      expect(orders).to.deepEqual(persistedOrders);
-      expect(orders).to.containEql(order);
-      expect(orders).to.not.containEql(notMyOrder);
+      expect(toJSON(orders)).to.deepEqual(toJSON(persistedOrders));
+      expect(toJSON(orders)).to.containEql(toJSON(order));
+      expect(toJSON(orders)).to.not.containEql(toJSON(notMyOrder));
     });
 
     it('finds appropriate related model instances for multiple relations', async () => {

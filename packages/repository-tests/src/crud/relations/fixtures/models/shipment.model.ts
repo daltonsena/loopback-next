@@ -13,7 +13,7 @@ export class Shipment extends Entity {
     id: true,
     generated: true,
   })
-  id: string;
+  id: string | number;
 
   @property({type: 'string'})
   name: string;
